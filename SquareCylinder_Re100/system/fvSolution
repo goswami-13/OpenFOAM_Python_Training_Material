@@ -1,0 +1,97 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    p
+    {
+        solver          petsc;
+        preconditioner  petsc;
+
+        petsc
+        {
+			
+			options
+            {
+                ksp_type  cg;
+                ksp_cg_single_reduction  true;
+                mat_type mpiaij;
+                pc_type  hypre;
+                pc_hypre_type boomeramg;
+                pc_hypre_boomeramg_max_iter "1";
+                pc_hypre_boomeramg_strong_threshold "0.7";
+                pc_hypre_boomeramg_grid_sweeps_up "1";
+                pc_hypre_boomeramg_grid_sweeps_down "1";
+                pc_hypre_boomeramg_agg_nl "2";
+                pc_hypre_boomeramg_agg_num_paths "1";
+                pc_hypre_boomeramg_max_levels "25";
+                pc_hypre_boomeramg_coarsen_type HMIS;
+                pc_hypre_boomeramg_interp_type ext+i;
+                pc_hypre_boomeramg_P_max "2";
+                pc_hypre_boomeramg_truncfactor "0.2";
+            }
+
+
+            caching
+            {
+                matrix
+                {
+                    update always;
+                }
+
+                preconditioner
+                {
+                    update always;
+                }
+            }
+        }
+		
+        tolerance        1e-07;
+        relTol           0.01;
+    }
+
+    pFinal
+    {
+        $p;
+        relTol          0;
+    }
+
+    "(U|k|epsilon)"
+    {
+        solver          PBiCGStab;
+		preconditioner  DILU;
+        tolerance       1e-08;
+        relTol          0.01;
+    }
+
+    "(U|k|epsilon)Final"
+    {
+        $U;
+        relTol          0;
+    }
+
+}
+
+PIMPLE
+{
+    nOuterCorrectors 1;
+    nCorrectors     2;
+    nNonOrthogonalCorrectors 0;
+    pRefCell        1001;
+    pRefValue       0;
+}
+
+// ************************************************************************* //
