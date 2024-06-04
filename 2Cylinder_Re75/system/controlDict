@@ -1,0 +1,129 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1812                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+libs (petscFoam);
+
+application     pimpleFoam;
+
+startFrom       latestTime;//startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         3000; // 20 Through times
+
+deltaT          0.25;
+
+writeControl    timeStep;
+
+writeInterval   200;
+
+purgeWrite      10;
+
+writeFormat     ascii;
+
+writePrecision  8;
+
+writeCompression on;
+
+timeFormat      general;
+
+timePrecision   8;
+
+runTimeModifiable true;
+
+
+functions
+{
+    #includeFunc probes  
+    
+	//#includeFunc surfaces  
+	
+    fieldAverage1
+    {
+        type            fieldAverage;
+        libs            ("libfieldFunctionObjects.so");
+        writeControl    writeTime;
+        timeStart       0;
+
+        fields
+        (
+            U
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+
+            p
+            {
+                mean        on;
+                prime2Mean  on;
+                base        time;
+            }
+        );
+    }
+
+
+    forces1
+    {
+        type            forceCoeffs;
+        libs ( "libforces.so" );
+    
+        writeControl   timeStep;
+        writeInterval  1;
+        
+        patches         ( "PRISM1" );
+        
+        rho             rhoInf;
+        log             true;
+        rhoInf          1.225;
+        liftDir         (0 1 0);
+        dragDir         (1 0 0);
+        //sideDir         (0 0 1);
+        CofR            (0 0 0);
+        pitchAxis       (0 0 1);
+        magUInf         0.01125;
+        lRef            0.1;
+        Aref            0.01;
+    }
+	
+	forces2
+    {
+        type            forceCoeffs;
+        libs ( "libforces.so" );
+    
+        writeControl   timeStep;
+        writeInterval  1;
+        
+        patches         ( "PRISM2" );
+        
+        rho             rhoInf;
+        log             true;
+        rhoInf          1.225;
+        liftDir         (0 1 0);
+        dragDir         (1 0 0);
+        //sideDir         (0 0 1);
+        CofR            (0 0 0);
+        pitchAxis       (0 0 1);
+        magUInf         0.01125;
+        lRef            0.1;
+        Aref            0.01;
+    }
+}
+
+// ************************************************************************* //
