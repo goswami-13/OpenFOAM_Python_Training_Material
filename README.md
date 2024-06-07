@@ -1,8 +1,6 @@
 # OpenFOAM_Python_Training_Material
 Training material and necessary files for First UK-India OpenFOAM Symposium
 
-![](https://github.com/goswami-13/OpenFOAM_Python_Training_Material/blob/main/BlogImage.gif)
-
 # Getting Started
 
 ## Accessing Files 
