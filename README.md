@@ -11,7 +11,7 @@ The workshop training material is available on Github, and can be downloaded usi
 git clone https://github.com/goswami-13/OpenFOAM_Python_Training_Material.git
 ```
 
-**Tip:** Clone/download this repository and place it in your working directory for ease!!! 
+**Tip:** Clone/download this repository and place it in your working directory for easy access!!! 
 
 ## Setting up Python
 
@@ -51,11 +51,11 @@ In case you are new to Python, fear not!! [Here](https://www.codingforentreprene
 
 # Jupyter File
 
-I prefer using Jypyter notebook (In VSCode) as by basic python working environment. As such this workshop comes with a handy file named `Workshop.ipynb`. The above deliverables and their codes are given in this file.
+I prefer using Jypyter notebook (In VSCode) as my basic python interactive development/working environment. As such this workshop comes with a handy file named `Workshop.ipynb`. The above deliverables and their codes are given in this file.
 
 # OpenFOAM Cases
 
-We will be using two OpenFOAM case studies as an example for this workshop.
+We will be using two OpenFOAM case studies as an example for this workshop. Both cases are included in this repository.
 
 1. Flow over 2D square cylinder at $Re = 100$ (Bai & Alam 2018).
 2. Two side-by-side cylinders with gap ratio of $4$ at $Re = 75$ (Ma et al. 2017).
